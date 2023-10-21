@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     ### django-apps
     'request',
     'task',
-    'employee',
+    'business',
 ]
 
 MIDDLEWARE = [
