@@ -1,12 +1,19 @@
 from django.db import models
 
 BLOOD_TYPE_CHOICES = [
+    ("A Rh+", "A Rh+"),
+    ("A Rh-", "A Rh-"),
     ("B Rh+", "B Rh+"),
     ("B Rh-", "B Rh-"),
+    ("AB Rh+", "AB Rh+"),
+    ("AB Rh-", "AB Rh-"),
+    ("O Rh+", "O Rh+"),
+    ("O Rh-", "O Rh-"),
 ]
 
 EMPLOYEE_POSITION_CHOICES = [
     ("GM", 'General Manager'),
+    ("HR", 'Human Resources'),
     ('TL', 'Team Leader'),
     ('TC', 'Team Coordinator'),
     ('EX', 'Expert'),
@@ -25,17 +32,26 @@ TEAM_CHOICES = [
     ('SP', 'Specialist')
 ]
 
+SCHENGEN_VISA_CHOICES = [
+    (''),
+    ()
+]
+
+
 class Employee(models.Model):
 
     name = models.CharField(max_length=200, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
     position = models.CharField(max_length=4, choices=EMPLOYEE_POSITION_CHOICES, null=True)
-    team = models.CharField(max_length=4, choices=TEAM_CHOICES, null=True)
+    alocation_balance = models.IntegerField(null=True, blank=True)
+    yearly_allocation = models.IntegerField(null=True, blank=True)
+    last_allocation_update = models.DateField(null=True, blank=True)
+    #team = models.CharField(max_length=4, choices=TEAM_CHOICES, null=True)
     birthday = models.DateField(null=False, blank=False)
     contract_start = models.DateField(null=False, blank=False)
     contract_end = models.DateField(null=True, blank=True)
     supervisor = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    afr_id = models.CharField(max_length=20)
+    afr_id = models.CharField(max_length=20, null=True, blank=True)
     windows_account_expiry_date = models.DateField(null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
@@ -53,3 +69,14 @@ class Employee(models.Model):
         return self.name
     
 
+class Team(models.Model):
+    name = models.CharField(choices=TEAM_CHOICES, max_length=20)
+    leader = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='team_leader')
+    coordinator = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='team_coordinator')
+    members = models.ManyToManyField('Employee')
+
+    def __repr__(self):
+        return self.name
+    
+    def __str__(self):
+        return self.name

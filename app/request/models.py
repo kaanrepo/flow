@@ -1,6 +1,7 @@
 from django.db import models
 from numpy import busday_count, is_busday
 from employee.models import Employee
+from .validators import validate_start_end_date, validate_half_day
 
 # Create your models here.
 
@@ -40,3 +41,13 @@ class Request(models.Model):
         if self.start_date == self.end_date:
             return int(1)
         return busday_count(self.start_date, self.end_date)
+    
+    def __str__(self):
+        return f'{self.requested_by} / {self.type} / {self.start_date} - {self.end_date} / {self.status}'
+    
+    def clean(self):
+        if self.start_date and self.end_date:
+            validate_start_end_date(self.start_date, self.end_date)
+        if self.duration:
+            validate_half_day(self.start_date, self.end_date, self.duration)
+        super(Request, self).clean()
