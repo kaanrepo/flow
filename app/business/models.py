@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 BLOOD_TYPE_CHOICES = [
     ("A Rh+", "A Rh+"),
@@ -32,8 +33,10 @@ TEAM_CHOICES = [
     ('SP', 'Specialist')
 ]
 
-class Employee(models.Model):
+User = get_user_model()
 
+class Employee(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=200, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
     position = models.CharField(max_length=4, choices=EMPLOYEE_POSITION_CHOICES, null=True)
