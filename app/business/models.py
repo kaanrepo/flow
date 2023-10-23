@@ -55,6 +55,7 @@ class Employee(models.Model):
     schengen_visa_status = models.BooleanField(default=False)
     military_service_status = models.BooleanField(default=False)
     safety_certificat_status = models.BooleanField(default=False)
+    photo = models.FileField(null=True, blank=True)
 
     def __repr__(self):
         return self.name
@@ -79,6 +80,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=30)
     contract_start_date = models.DateField(null=True, blank=True)
     contract_end_date = models.DateField(null=True, blank=True)
+    contact_information = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
