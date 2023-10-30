@@ -1,3 +1,6 @@
 django
-django-ninja
 numpy
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers
+python-decouple

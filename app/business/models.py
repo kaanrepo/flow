@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import uuid
 
 BLOOD_TYPE_CHOICES = [
     ("A Rh+", "A Rh+"),
@@ -36,6 +37,7 @@ TEAM_CHOICES = [
 User = get_user_model()
 
 class Employee(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=200, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
@@ -68,6 +70,7 @@ class Employee(models.Model):
     
 
 class Team(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(choices=TEAM_CHOICES, max_length=20)
     leader = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='leader_of')
     coordinator = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='coordinator_of')
@@ -80,6 +83,7 @@ class Team(models.Model):
         return self.name
     
 class Customer(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=30)
     contract_start_date = models.DateField(null=True, blank=True)
     contract_end_date = models.DateField(null=True, blank=True)

@@ -2,7 +2,7 @@ from django.db import models
 from numpy import busday_count, is_busday
 from business.models import Employee
 from .validators import validate_start_end_date, validate_half_day
-
+import uuid
 # Create your models here.
 
 REQUEST_TYPE_CHOICES = [
@@ -34,6 +34,7 @@ class RequestManager(models.Manager):
         return query
 
 class Request(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     type = models.CharField(max_length=30, choices=REQUEST_TYPE_CHOICES)
     requested_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='requestor')
     reviewed_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True, related_name='approver')

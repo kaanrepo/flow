@@ -1,5 +1,6 @@
 from django.db import models
 from business.models import Employee
+import uuid
 
 # Create your models here.
 
@@ -38,6 +39,7 @@ TASK_TYPE_CHOICES = [
 
 
 class Task(models.Model):
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=50, null=False, blank=False)
     #customer = models.CharField(max_length=20, null=False, blank=False)
     customer = models.ForeignKey('business.customer', on_delete=models.SET_NULL, null=True, blank=True)
@@ -55,6 +57,9 @@ class Task(models.Model):
         if self.customer:
             return f' {self.customer.name}/ {self.name}'
         return self.name
+    
+    def __repr__(self) -> str:
+        return super().__str__()
     
 
 class TaskLog(models.Model):
