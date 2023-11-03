@@ -30,13 +30,14 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = TaskSerializer(instance, data=request.data)
+        serializer = self.get_serializer(instance, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    

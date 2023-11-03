@@ -3,6 +3,7 @@ from numpy import busday_count, is_busday
 from business.models import Employee
 from .validators import validate_start_end_date, validate_half_day
 import uuid
+from django.urls import reverse
 # Create your models here.
 
 REQUEST_TYPE_CHOICES = [
@@ -63,3 +64,7 @@ class Request(models.Model):
         if self.duration:
             validate_half_day(self.start_date, self.end_date, self.duration)
         super(Request, self).clean()
+
+    def get_absolute_url(self):
+        return reverse("request-retrieve-update-destroy-view", kwargs={"uuid": self.uuid})
+    

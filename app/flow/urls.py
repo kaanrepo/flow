@@ -22,6 +22,5 @@ admin.site.index_title = 'Admin Panel'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/accounts/', include('accounts.urls')),
-    path('api/tasks/', include('task.urls')),
+    path('api/v1/', include('flow.api_urls'))
 ]
