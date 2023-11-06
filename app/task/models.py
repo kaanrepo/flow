@@ -1,6 +1,5 @@
 from django.db import models
 from business.models import Employee
-import uuid
 
 # Create your models here.
 
@@ -8,26 +7,6 @@ STATUS_CHOICES = [
     ('open', 'Open'),
     ('closed', 'Closed'),
 ]
-
-# CUSTOMER_CHOICES = [
-#     ('af', 'AF'),
-#     ('af it', 'AF IT'),
-#     ('afkl', 'AFKL'),
-#     ('ams/bi', 'AMS/BI'),
-#     ('ams/cx', 'AMS/CX'),
-#     ('ams/sz', 'AMS/SZ'),
-#     ('cargo', 'Cargo'),
-#     ('cargo_ops', 'Cargo Ops.'),
-#     ('flying_blue', 'Flying Blue'),
-#     ('kl', 'KL'),
-#     ('klc', 'KLC'),
-#     ('medeam', 'Medeam'),
-#     ('ndc', 'NDC'),
-#     ('ota', 'OTA'),
-#     ('skyteam', 'Skyteam'),
-#     ('transavia_hv', 'Transavia HV'),
-#     ('transavio_to', 'Transavia TO'),
-# ]
 
 TASK_TYPE_CHOICES = [
     ('meeting/call', 'Meeting/Call'),
@@ -39,12 +18,9 @@ TASK_TYPE_CHOICES = [
 
 
 class Task(models.Model):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=50, null=False, blank=False)
-    #customer = models.CharField(max_length=20, null=False, blank=False)
     customer = models.ForeignKey('business.customer', on_delete=models.SET_NULL, null=True, blank=True)
-    area = models.CharField(max_length=20, null=False, blank=False)
-    subarea_department = models.CharField(max_length=20, null=False, blank=False)
+    department = models.CharField(max_length=20, null=False, blank=False)
     type = models.CharField(max_length=20, null=False, blank=False, choices=TASK_TYPE_CHOICES)
     start_date = models.DateField(null=False, blank=False)
     end_date = models.DateField(null=True, blank=True)

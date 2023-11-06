@@ -9,7 +9,7 @@ class RequestListCreateView(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     authentication_classes = []
-    permission_classes = ()
+    permission_classes = (RequestEditPermission,)
     
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, context={'request': request})
@@ -18,12 +18,12 @@ class RequestListCreateView(generics.ListCreateAPIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-class RequestRetrieveUpdateDestroyView(generics.RetrieveAPIView):
+class RequestRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     authentication_classes = []
-    permission_classes = ()
-    lookup_field = 'uuid'
+    permission_classes = (RequestEditPermission,)
+    lookup_field = 'pk'
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -52,6 +52,6 @@ class EmployeeRequestListView(generics.ListAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        uuid = self.kwargs['uuid']
-        return qs.filter(participants__uuid=uuid)
+        pk = self.kwargs['pk']
+        return qs.filter(participants__id=pk)
     

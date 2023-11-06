@@ -13,3 +13,5 @@ class RequestEditPermission(permissions.BasePermission):
         
         if request.user.employee.position in self.ROLES_ALLOWED_TO_EDIT:
             return True
+        
+        return False

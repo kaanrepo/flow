@@ -18,15 +18,15 @@ class EmployeeTaskListView(generics.ListAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        uuid = self.kwargs['uuid']
-        return qs.filter(participants__uuid=uuid)
+        pk = self.kwargs['pk']
+        return qs.filter(participants__pk=pk)
     
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     authentication_classes = []
     permission_classes = ()
-    lookup_field = 'uuid'
+    lookup_field = 'pk'
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
