@@ -3,6 +3,8 @@ name: DJANGO CI & POSTGRES TEST
 on:
   push:
     branches: [ main ]
+  pull:
+    branches: [ main ]
 
 jobs:
   django_test:
