@@ -15,6 +15,5 @@ class RequestSerializer(serializers.ModelSerializer):
             'start_date',
             'end_date',
             'duration_type',
-            'duration',
             'status'
         ]
