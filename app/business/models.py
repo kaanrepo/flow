@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-import uuid
 
 BLOOD_TYPE_CHOICES = [
     ("A Rh+", "A Rh+"),
@@ -29,7 +28,7 @@ class Employee(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     email = models.EmailField(null=True, blank=True)
     position = models.CharField(max_length=4, choices=EMPLOYEE_POSITION_CHOICES, null=True)
-    alocation_balance = models.FloatField(null=True, blank=True)
+    allocation_balance = models.FloatField(null=True, blank=True)
     yearly_allocation = models.FloatField(null=True, blank=True)
     last_allocation_update = models.DateField(null=True, blank=True)
     birthday = models.DateField(null=True, blank=True)

@@ -27,7 +27,7 @@ class Task(models.Model):
     end_date = models.DateField(null=True, blank=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=10, null=False, blank=False, default='open')
     created_at = models.DateField(auto_now_add=True)
-    created_by = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True, related_name='created_tasks')
     participants = models.ManyToManyField(Employee, related_name='related_tasks', blank=True)
 
     def __str__(self):
@@ -41,7 +41,7 @@ class Task(models.Model):
 
 class TaskLog(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=False, blank=False)
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True )
     date = models.DateField(null=False, blank=False)
     duration = models.DurationField(null=True, blank=True)
 

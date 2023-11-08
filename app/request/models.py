@@ -36,6 +36,7 @@ class RequestManager(models.Manager):
 
 class Request(models.Model):
     type = models.CharField(max_length=30, choices=REQUEST_TYPE_CHOICES)
+    requested_at = models.DateField(auto_now_add=True)
     requested_by = models.ForeignKey(
         Employee, on_delete=models.SET_NULL, null=True, related_name='requestor')
     reviewed_by = models.ForeignKey(

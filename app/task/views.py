@@ -5,6 +5,19 @@ from rest_framework.authentication import TokenAuthentication
 from .models import Task
 from .serializers import TaskSerializer
 
+
+class TaskDashboardView(generics.ListAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    authentication_classes = []
+    permission_classes = ()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        pk = self.request.user.pk
+        return qs.filter(participants__pk=pk, status='open')
+
+
 class TaskListCreateView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
@@ -19,7 +32,7 @@ class EmployeeTaskListView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         pk = self.kwargs['pk']
-        return qs.filter(participants__pk=pk)
+        return qs.filter(participants__pk=pk, status='open')
     
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()

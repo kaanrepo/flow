@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-admin.site.site_header = 'Medeam Flow'
+admin.site.site_header = 'Flow'
 admin.site.index_title = 'Admin Panel'
 
 urlpatterns = [

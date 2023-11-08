@@ -6,7 +6,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     url = serializers.HyperlinkedIdentityField(
         view_name='task-detail-view',
-        lookup_field='uuid'
+        lookup_field='pk'
     )
 
     class Meta:
