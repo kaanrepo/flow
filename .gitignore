@@ -1,3 +1,4 @@
 flow_venv
 app/.env
 .dockerignore
+app/db.sqlite3

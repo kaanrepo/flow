@@ -55,3 +55,12 @@ class EmployeeRequestListView(generics.ListAPIView):
         pk = self.kwargs['pk']
         return qs.filter(participants__id=pk)
     
+
+class TeamPendingRequestListView(generics.ListAPIView):
+    queryset = Request.objects.all()
+    serializer_class = RequestSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        pk = self.kwargs['pk']
+        return qs.filter(requested_by__related_team__id=pk, status='pending')
