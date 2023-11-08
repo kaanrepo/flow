@@ -24,3 +24,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('flow.api_urls'))
 ]
+
