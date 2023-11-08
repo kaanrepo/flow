@@ -75,7 +75,7 @@ class RequestTestCase(TestCase):
             start_date='2020-01-01',
             end_date='2020-01-02',
             description='test description',
-            duration='half day',
+            duration_type='half day',
             status='pending'
         )
 
@@ -86,7 +86,7 @@ class RequestTestCase(TestCase):
             start_date='2020-01-01',
             end_date='2020-01-02',
             description='test description',
-            duration=1,
+            duration_type=1,
             status='approved'
         )
 
@@ -101,7 +101,7 @@ class RequestTestCase(TestCase):
                 'start_date': '2020-01-01',
                 'end_date': '2020-01-02',
                 'description': 'test description',
-                'duration': 'full day',
+                'duration_type': 'full day',
                 'status': 'pending'
             }
         )
@@ -118,7 +118,7 @@ class RequestTestCase(TestCase):
                 'start_date': '2020-01-01',
                 'end_date': '2020-01-05',
                 'description': 'test description',
-                'duration': 'full day',
+                'duration_type': 'full day',
                 'status': 'pending'
             }
         )
@@ -134,7 +134,7 @@ class RequestTestCase(TestCase):
                 'start_date': '2020-01-01',
                 'end_date': '2020-01-03',
                 'description': 'test description',
-                'duration': 'full day',
+                'duration_type': 'full day',
                 'status': 'approved'
             }
         )
