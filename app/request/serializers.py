@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.reverse import reverse
 from .models import Request
 
 class RequestSerializer(serializers.ModelSerializer):
@@ -15,7 +14,7 @@ class RequestSerializer(serializers.ModelSerializer):
             'reviewed_by',
             'start_date',
             'end_date',
-            'description',
+            'duration_type',
             'duration',
             'status'
         ]

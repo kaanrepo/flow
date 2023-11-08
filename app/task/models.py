@@ -1,5 +1,6 @@
 from django.db import models
 from business.models import Employee
+from .validators import validate_task_participant
 
 # Create your models here.
 
@@ -43,3 +44,7 @@ class TaskLog(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, null=False, blank=False)
     date = models.DateField(null=False, blank=False)
     duration = models.DurationField(null=True, blank=True)
+
+    def clean(self) -> None:
+        validate_task_participant(self.task, self.employee)
+        return super().clean()

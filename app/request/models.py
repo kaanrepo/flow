@@ -33,15 +33,20 @@ class RequestManager(models.Manager):
         query = Request.objects.filter(status='pending')
         return query
 
+
 class Request(models.Model):
     type = models.CharField(max_length=30, choices=REQUEST_TYPE_CHOICES)
-    requested_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, related_name='requestor')
-    reviewed_by = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True, related_name='approver')
+    requested_by = models.ForeignKey(
+        Employee, on_delete=models.SET_NULL, null=True, related_name='requestor')
+    reviewed_by = models.ForeignKey(
+        Employee, on_delete=models.SET_NULL, null=True, blank=True, related_name='approver')
     start_date = models.DateField()
     end_date = models.DateField()
     description = models.TextField(null=True, blank=True)
-    duration_type = models.CharField(choices=REQUEST_DURATION_CHOICES, max_length=10)
-    status = models.CharField(choices=REQUEST_STATUS_CHOICES, max_length=20, default='pending')
+    duration_type = models.CharField(
+        choices=REQUEST_DURATION_CHOICES, max_length=10)
+    status = models.CharField(
+        choices=REQUEST_STATUS_CHOICES, max_length=20, default='pending')
 
     objects = RequestManager()
 
@@ -52,17 +57,17 @@ class Request(models.Model):
         if self.start_date == self.end_date:
             return float(1)
         return busday_count(self.start_date, self.end_date)
-    
+
     def __str__(self):
         return f'{self.requested_by} / {self.type} / {self.start_date} - {self.end_date} / {self.status}'
-    
+
     def clean(self):
         if self.start_date and self.end_date:
             validate_start_end_date(self.start_date, self.end_date)
         if self.duration_type:
-            validate_half_day(self.start_date, self.end_date, self.duration_type)
+            validate_half_day(self.start_date, self.end_date,
+                              self.duration_type)
         super(Request, self).clean()
 
     def get_absolute_url(self):
         return reverse("request-retrieve-update-destroy-view", kwargs={"pk": self.pk})
-    
