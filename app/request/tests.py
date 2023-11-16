@@ -4,6 +4,13 @@ from request.models import Request
 from business.models import Employee
 from accounts.models import User
 
+import pytest
+from channels.routing import URLRouter
+from channels.testing import WebsocketCommunicator
+from request.consumers import RequestConsumer
+from asgiref.sync import async_to_sync, sync_to_async
+from flow.asgi import websocket_urlpatterns
+
 
 
 class RequestTestCase(TestCase):
@@ -139,3 +146,14 @@ class RequestTestCase(TestCase):
             }
         )
         self.assertEqual(response.status_code, 403)
+
+
+    @pytest.mark.asyncio
+    async def test_my_consumer(self):
+        scope = {
+            'type': 'websocket',
+            'user': self.test_coordinator_user,
+        }
+        communicator = WebsocketCommunicator(URLRouter(websocket_urlpatterns), "/ws/requests/")
+        connected, _ = await communicator.connect()
+        assert connected

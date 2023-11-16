@@ -18,6 +18,14 @@ class RequestService():
         return request
 
     @staticmethod
+    def get_request(request_id):
+        try:
+            request = Request.objects.get(id=request_id)
+            return request
+        except Request.DoesNotExist:
+            return None
+
+    @staticmethod
     def delete_request(request):
         request.delete()
 
