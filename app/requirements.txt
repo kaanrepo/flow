@@ -10,3 +10,5 @@ channels[daphne]
 channels_redis
 pytest-django
 pytest-asyncio
+drf_yasg
+celery[redis]

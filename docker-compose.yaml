@@ -15,7 +15,7 @@ services:
       - app/.env
     ports:
       - 8000:8000
-    command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/entrypoint.sh"
+    command: sh -c "chmod +x /app/migrate.sh && sh /app/migrate.sh && /app/collectstatic.sh &&  /app/entrypoint.sh"
 
   postgres_db:
     image: postgres:13.3
