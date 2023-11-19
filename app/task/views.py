@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from .models import Task
 from .serializers import TaskSerializer
+from django.shortcuts import render
 
 
 class TaskDashboardView(generics.ListAPIView):
@@ -54,3 +55,8 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+def test_view(request):
+    context = {
+    }
+    return render(request, 'test.html', context)

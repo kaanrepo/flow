@@ -2,6 +2,7 @@ import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from task.services.task_services import TaskService
+from asgiref.sync import sync_to_async
 
 class TaskConsumer(AsyncWebsocketConsumer):
 
@@ -65,10 +66,10 @@ class TaskLogConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.socket_name, self.channel_name)
         await self.close()
 
-    async def receive(self, data):
-        data = json.loads(data)
+    async def receive(self, text_data):
+        data = json.loads(text_data)
         task_id = data.get('task_id')
-        task = self.tasklog_service.get_task(task_id)
+        task = await sync_to_async(self.tasklog_service.get_task)(task_id)
         action = data.get('task_action')
         if action == 'create':
             new_tasklog = await self.tasklog_service.create_tasklog(data)
