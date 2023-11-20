@@ -29,9 +29,22 @@ class TaskService():
         except Task.DoesNotExist:
             return None
     
+class TaskLogService():
+
+    
+    @staticmethod
+    def get_tasklog(tasklog_id):
+        try:
+            tasklog = TaskLog.objects.get(id=tasklog_id)
+            return tasklog
+        except TaskLog.DoesNotExist:
+            return None
+    
     @staticmethod
     def create_tasklog(data):
-        tasklog = TaskLog.objects.create(**data)
+        tasklog_serializer = TaskLogSerializer(data=data)
+        if tasklog_serializer.is_valid():
+            tasklog = tasklog_serializer.save()
         return tasklog
     
     @staticmethod

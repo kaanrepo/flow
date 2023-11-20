@@ -1,7 +1,7 @@
 import json
 
 from channels.generic.websocket import AsyncWebsocketConsumer
-from task.services.task_services import TaskService
+from task.services.task_services import TaskService, TaskLogService
 from asgiref.sync import sync_to_async
 
 class TaskConsumer(AsyncWebsocketConsumer):
@@ -54,7 +54,7 @@ class TaskConsumer(AsyncWebsocketConsumer):
 
 class TaskLogConsumer(AsyncWebsocketConsumer):
 
-    tasklog_service = TaskService()
+    tasklog_service = TaskLogService()
 
     async def connect(self):
         user = self.scope['user']
@@ -68,16 +68,38 @@ class TaskLogConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        task_id = data.get('task_id')
-        task = await sync_to_async(self.tasklog_service.get_task)(task_id)
+        tasklog_id = data.get('tasklog_id')
+        if tasklog_id:
+            tasklog = await sync_to_async(self.tasklog_service.get_tasklog)(tasklog_id)
         action = data.get('task_action')
+        serializer_data = {}
+        serializer_keys = ['task', 'employee', 'date', 'duration']
+        for key in data:
+            if key in serializer_keys:
+                serializer_data[key] = data[key]
         if action == 'create':
-            new_tasklog = await self.tasklog_service.create_tasklog(data)
+            new_tasklog = await sync_to_async(self.tasklog_service.create_tasklog)(serializer_data)
             await self.channel_layer.group_send(self.socket_name, {'type': 'tasklog.created', 'task_id': new_tasklog.id})
+        if action == 'update':
+            updated_tasklog = await sync_to_async(self.tasklog_service.update_tasklog)(tasklog, serializer_data)
+            await self.channel_layer.group_send(self.socket_name, {'type': 'tasklog.updated', 'task_id': updated_tasklog.id})
+        if action == 'delete':
+            await sync_to_async(self.tasklog_service.delete_tasklog)(tasklog)
+            await self.channel_layer.group_send(self.socket_name, {'type': 'tasklog.deleted'})
 
     async def tasklog_created(self, event):
         task_id = event['task_id']
         await self.send(text_data=json.dumps({
             'task_id': task_id,
             'status': 'created'
+        }))
+    async def tasklog_updated(self, event):
+        task_id = event['task_id']
+        await self.send(text_data=json.dumps({
+            'task_id': task_id,
+            'status': 'updated'
+        }))
+    async def tasklog_deleted(self, event):
+        await self.send(text_data=json.dumps({
+            'status': 'deleted'
         }))

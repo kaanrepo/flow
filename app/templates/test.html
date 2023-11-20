@@ -40,8 +40,8 @@
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
-                'task_id': 1,
-                'task_action': 'create',
+                'task_action': 'delete',
+                'tasklog_id': '1',
             }));
             messageInputDom.value = '';
         };
