@@ -48,3 +48,6 @@ class TaskLog(models.Model):
     def clean(self) -> None:
         validate_task_participant(self.task, self.employee)
         return super().clean()
+    
+    def __str__(self):
+        return f'{self.task.name} - {self.employee.name} - {self.date} - {self.duration}'

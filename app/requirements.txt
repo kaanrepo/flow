@@ -12,3 +12,5 @@ pytest-django
 pytest-asyncio
 drf_yasg
 celery[redis]
+django-oauth-toolkit
+django-cors-headers
