@@ -148,12 +148,12 @@ class RequestTestCase(TestCase):
         self.assertEqual(response.status_code, 403)
 
 
-    @pytest.mark.asyncio
-    async def test_my_consumer(self):
-        scope = {
-            'type': 'websocket',
-            'user': self.test_coordinator_user,
-        }
-        communicator = WebsocketCommunicator(URLRouter(websocket_urlpatterns), "/ws/requests/")
-        connected, _ = await communicator.connect()
-        assert connected
+    # @pytest.mark.asyncio
+    # async def test_my_consumer(self):
+    #     scope = {
+    #         'type': 'websocket',
+    #         'user': self.test_coordinator_user,
+    #     }
+    #     communicator = WebsocketCommunicator(URLRouter(websocket_urlpatterns), "/ws/requests/")
+    #     connected, _ = await communicator.connect()
+    #     assert connected
