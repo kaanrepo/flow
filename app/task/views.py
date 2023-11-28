@@ -10,8 +10,6 @@ from django.shortcuts import render
 class TaskDashboardView(generics.ListAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    authentication_classes = []
-    permission_classes = ()
 
     def get_queryset(self):
         qs = super().get_queryset()
@@ -22,8 +20,6 @@ class TaskDashboardView(generics.ListAPIView):
 class TaskListCreateView(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    authentication_classes = []
-    permission_classes = ()
     
 
 class EmployeeTaskListView(generics.ListAPIView):
@@ -38,8 +34,6 @@ class EmployeeTaskListView(generics.ListAPIView):
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    authentication_classes = []
-    permission_classes = ()
     lookup_field = 'pk'
 
     def put(self, request, *args, **kwargs):

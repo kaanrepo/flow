@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from .models import Request
 from .serializers import RequestSerializer
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from .permissions import RequestEditPermission
 
 
@@ -9,7 +10,7 @@ class RequestListCreateView(generics.ListCreateAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
     authentication_classes = []
-    permission_classes = (RequestEditPermission,)
+    permission_classes = (RequestEditPermission, IsAuthenticated)
     
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data, context={'request': request})
@@ -21,8 +22,7 @@ class RequestListCreateView(generics.ListCreateAPIView):
 class RequestRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Request.objects.all()
     serializer_class = RequestSerializer
-    authentication_classes = []
-    permission_classes = (RequestEditPermission,)
+    permission_classes = (RequestEditPermission, IsAuthenticated)
     lookup_field = 'pk'
 
     def put(self, request, *args, **kwargs):
