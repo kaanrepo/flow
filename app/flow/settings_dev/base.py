@@ -162,7 +162,7 @@ REST_FRAMEWORK = {
         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',]
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',]
 }
 
 OAUTH2_PROVIDER = {
