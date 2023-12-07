@@ -29,7 +29,7 @@ class EmployeeTaskListView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         pk = self.kwargs['pk']
-        return qs.filter(participants__pk=pk, status='open')
+        return qs.filter(participants__pk=pk)
     
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
